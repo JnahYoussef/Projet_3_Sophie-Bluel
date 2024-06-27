@@ -4,7 +4,7 @@ const gallery = document.querySelector(".gallery");
 const filters = document.querySelector(".filters");
 
 
-//** function qui retourne le tableau des projets **/:
+//** fonction qui récupère le tableau des projets **/:
 
 async function getProjects () {
     const response = await  fetch ("http://localhost:5678/api/works");
@@ -14,14 +14,6 @@ async function getProjects () {
 getProjects();
 
 //** Affichage des projets dans le DOM **/
-
-async function displayProjects() {
-    const projects = await getProjects ()
-    projects.forEach(project => {
-        createProjects(project)
-    });
-}
-displayProjects();
 
 function createProjects(project){
     const figure = document.createElement("figure");
@@ -33,6 +25,15 @@ function createProjects(project){
     figure.appendChild(figcaption);
     gallery.appendChild(figure);
 }
+
+async function displayProjects() {
+    const projects = await getProjects ()
+    projects.forEach(project => {
+        createProjects(project)
+    });
+}
+displayProjects();
+
 
 //*** Affichage des boutons par catégories ***//
 
@@ -51,10 +52,11 @@ async function displayCategoriesButtons(){
         const btn = document.createElement("button");
         btn.textContent = category.name;
         btn.id = category.id;
+        filters.appendChild(btn);
+
         if (category.id === 0) {
             btn.classList.add("selected"); // Ajouter la classe "selected" au bouton 'Tous'
         }
-        filters.appendChild(btn);
     });
 }
 displayCategoriesButtons();
@@ -63,7 +65,7 @@ displayCategoriesButtons();
 //*** Filtrer par catégorie au clic ***//
 
 async function filterCategory () {
-    const allProjects = await getProjects();
+    const categories = await getProjects();
     const buttons = document.querySelectorAll(".filters button");
     
     buttons.forEach(button => {
@@ -75,10 +77,10 @@ async function filterCategory () {
             event.target.classList.add('selected'); // Ajouter la classe "selected" au bouton cliqué
             
             if(btnId !== "0"){
-                const allProjectsSort = allProjects.filter(project =>{
+                const categoriesSort = categories.filter(project =>{
                     return project.categoryId == btnId
                 });
-                allProjectsSort.forEach(project => {
+                categoriesSort.forEach(project => {
                     createProjects(project)
                 });
             }else{
@@ -88,3 +90,4 @@ async function filterCategory () {
     });
 }
 filterCategory();
+

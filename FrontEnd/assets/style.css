@@ -99,10 +99,18 @@ li:hover {
 	color: #B1663C;
 }
 
+nav a:hover {
+	font-weight: 700;
+}
+
 a {
   text-decoration: none;
   color: black;
   cursor: pointer;
+}
+
+#loginButton {
+	font-weight: 600;
 }
 
 #introduction {
@@ -167,6 +175,7 @@ margin: auto;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	cursor: pointer;
 }
 #contact label {
 	margin: 2em 0 1em 0;
@@ -195,6 +204,11 @@ footer nav ul {
 
 
 /*** Codes ajoutés ***/
+
+#instagram img {
+    height: 22px;
+    cursor: pointer;
+}
 
 .filters {
 	display: flex;
