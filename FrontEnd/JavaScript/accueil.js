@@ -102,9 +102,35 @@ async function filterCategory () {
 }
 filterCategory();
 
-//******************* Gestion home page */
 
-// Fonction qui check le localStorage, voir si il y as un token //
+                        //******************* Gestion page d'acueille ***********//
+
+
+//** fonction de modification de l'affichage en Mode Edition **//
+
+function setModification(classModif, textHtml) {
+    // on récupère et on crée les éléments à modifier
+    const Element = document.querySelector(classModif);
+    const icone = document.createElement("i");
+    const text = document.createElement("p");
+
+    icone.classList.add("fa-regular", "fa-pen-to-square");
+    text.innerText = textHtml;
+
+    Element.appendChild(icone);
+    Element.appendChild(text);
+
+    // on personnalise l'élément à modifier
+    if (classModif == ".mode-edition") {
+        Element.classList.add("mode-edition-style");
+    }
+    else if (classModif == ".projects") {
+        text.classList.add("modalLink")
+    }
+}
+
+//** */ Fonction login **//
+
 function checkLoginStatus() {
     // On récupère le token
     const loginLink = document.getElementById("login-button");
@@ -121,8 +147,20 @@ function checkLoginStatus() {
         loginLink.href = "./login.html";
         loginLink.removeEventListener("click", logout); 
     }
+
+    // On modifie l'affichage du mode édition
+    if (isLogged) {
+        setModification(".mode-edition", "Mode édition")
+        setModification(".modif", "modifier")
+        setModification(".projects", "modifier")
+
+        const buttonContainerEdition = document.querySelector(".filters");
+        buttonContainerEdition.classList.add("filter-buttons-hide");
+    }
 }
-// logout() elle vas s'occuper de la déconnection, vider le local storage et changer le nom de l'élement menu
+ 
+
+// logout() elle va s'occuper de la déconnection, vider le local storage
 function logout() {
     sessionStorage.removeItem("token");
     window.location.href = "./index.html"; // Rediriger vers la page de login après la déconnexion
@@ -131,11 +169,32 @@ function logout() {
 checkLoginStatus();
 
 
+                            /*************** GALERIE - MODALES ***************/
 
 
+//** fonction pour gérer la modale **//
 
-// fonction qui cache catégorie et ajoute modifier
-// fonction qui affiche barre mode édition
+const modals = document.querySelector(".modals")
+const modalLink = document.querySelector(".modalLink");
+const faXmark = document.querySelector(".modal-wrapper .fa-xmark")
+
+function manageDisplayModal() {
+// Ouvrir la modale //
+    modalLink.addEventListener("click", () => {
+        modals.style.display = "flex";
+    })
+ // Fermer la modale au clique sur le croix //
+    faXmark.addEventListener("click", () => {
+        modals.style.display = "none";
+    })
+// Fermer la modale au clique en dehors de la modale //
+    modals.addEventListener("click", (e) => {
+        if (e.target.className == "modals") {
+            modals.style.display = "none"; 
+        }
+    })
+}
+manageDisplayModal();
 
 
 
