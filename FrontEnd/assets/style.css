@@ -292,7 +292,7 @@ footer nav ul {
 	visibility: hidden;
 }
 
-.modals {
+.modal {
 	display: none;
 	align-items: center;
 	justify-content: center;
@@ -305,8 +305,8 @@ footer nav ul {
 }
 
 .modal-wrapper {
-	width: 40%;
-	height: 80%;
+	width: 48%;
+	height: 95%;
 	display: flex;
 	flex-direction: column;
 	align-items: center ;
@@ -315,31 +315,59 @@ footer nav ul {
 	background-color: white;
 	border-radius: 10px;
 	position: relative;
-	.fa-xmark {
-		text-align: right;
-		font-size: 20px;
-		width: 16px;
-		position: absolute;
-		top: 20px;
-		right: 25px;
-		cursor: pointer;
-	}
-	button {
-		font-family: "Syne";
-        font-size: 16px;
-        padding: 10px 50px;
-        border: 1px solid #1D6154;
-        border-radius: 25px;
-        color: white;
-        background-color: #1D6154;
-        cursor: pointer;
-        position: absolute;
-        bottom: 40px;
-	}
-	h3 {
-		font-size: 25px;
-		position: absolute;
-		top: 50px;
-	}
-	
+}
+.modal-wrapper .fa-xmark {
+	text-align: right;
+	font-size: 20px;
+	width: 16px;
+	position: absolute;
+	top: 20px;
+	right: 25px;
+	cursor: pointer;
+}
+.modal-wrapper button {
+	font-family: "Syne";
+    font-size: 16px;
+    padding: 10px 50px;
+    border: 1px solid #1D6154;
+    border-radius: 25px;
+    color: white;
+    background-color: #1D6154;
+    cursor: pointer;
+    position: absolute;
+    bottom: 40px;
+}
+.modal-wrapper h3 {
+	font-size: 30px;
+	position: absolute;
+	top: 50px;
+}
+.modal-wrapper .projetcsModal {
+	width: 70%;
+    height: 60%;
+    display: flex;
+    position: absolute;
+    top: 120px;
+    flex-wrap: wrap;
+    align-content: space-between;
+    gap: 8px;
+}
+.modal-wrapper .projetcsModal figure {
+	height: 30%;
+	position: relative;
+}
+.modal-wrapper .projetcsModal figure img {
+	width: 100%;
+	height: 100%;
+}
+
+.modal-wrapper .projetcsModal figure .fa-trash-can {
+    color: white;
+	background: black;
+	border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+	cursor: pointer;
 }

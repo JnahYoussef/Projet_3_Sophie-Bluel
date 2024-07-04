@@ -174,27 +174,47 @@ checkLoginStatus();
 
 //** fonction pour gérer la modale **//
 
-const modals = document.querySelector(".modals")
+const modal = document.querySelector(".modal")
 const modalLink = document.querySelector(".modalLink");
 const faXmark = document.querySelector(".modal-wrapper .fa-xmark")
 
 function manageDisplayModal() {
 // Ouvrir la modale //
     modalLink.addEventListener("click", () => {
-        modals.style.display = "flex";
+        modal.style.display = "flex";
     })
  // Fermer la modale au clique sur le croix //
     faXmark.addEventListener("click", () => {
-        modals.style.display = "none";
+        modal.style.display = "none";
     })
 // Fermer la modale au clique en dehors de la modale //
-    modals.addEventListener("click", (e) => {
-        if (e.target.className == "modals") {
-            modals.style.display = "none"; 
+    modal.addEventListener("click", (e) => {
+        if (e.target.className == "modal") {
+            modal.style.display = "none"; 
         }
     })
 }
 manageDisplayModal();
 
+//** Affichage des projets dans la galerie **//
+
+async function displayProjectsModal () {
+    const projectsModal = document.querySelector(".projetcsModal");
+    projectsModal.innerHTML ="";
+    const works = await getProjects()
+    works.forEach(work => {
+        const figure = document.createElement("figure");
+        const img = document.createElement("img");
+        const trash = document.createElement("i");
+        img.src = work.imageUrl;
+        trash.classList.add("fa-solid", "fa-trash-can");
+        trash.id = work.id;
+        figure.appendChild(trash);
+        figure.appendChild(img);
+        projectsModal.appendChild(figure)
+
+    });
+}
+displayProjectsModal ()
 
 
