@@ -154,7 +154,7 @@ a {
 }
 #contact {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
 #contact > * {
 	text-align: center;
@@ -232,6 +232,8 @@ footer nav ul {
 	background-color: #1D6154;
 	color: white;
   }
+
+  
 
 .mode-edition-style {
 	width: 100%;
@@ -316,9 +318,9 @@ footer nav ul {
 	border-radius: 10px;
 	position: relative;
 }
-.modal-wrapper .fa-xmark {
+.fa-xmark {
 	text-align: right;
-	font-size: 20px;
+	font-size: 25px;
 	width: 16px;
 	position: absolute;
 	top: 20px;
@@ -351,6 +353,8 @@ footer nav ul {
     flex-wrap: wrap;
     align-content: space-between;
     gap: 8px;
+    border-bottom: 2px solid #B3B3B3;
+    padding-bottom: 55px;
 }
 .modal-wrapper .projetcsModal figure {
 	height: 30%;
@@ -361,7 +365,7 @@ footer nav ul {
 	height: 100%;
 }
 
-.modal-wrapper .projetcsModal figure .fa-trash-can {
+.fa-trash-can {
     color: white;
 	background: black;
 	border-radius: 5px;
@@ -371,3 +375,111 @@ footer nav ul {
     top: 5px;
 	cursor: pointer;
 }
+
+.modalAddProject {
+    width: 48%;
+    height: 95%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    justify-items: center;
+    background-color: white;
+    border-radius: 10px;
+    position: relative;
+}
+
+.fa-arrow-left {
+	top: 20px;
+    left: 25px;
+    position: absolute;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.modal h3 {
+    font-size: 30px;
+    position: absolute;
+    top: 70px;
+}
+
+.modalAddProject form {
+	display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: 55%;
+    position: absolute;
+    top: 150px;
+    justify-content: center;
+    border-bottom: 2px solid #B3B3B3;
+    padding-bottom: 62px;
+}
+
+.containerFile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #E8F1F7;
+    height: 100%;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+.containerFile label {
+	font-size: 18px;
+    color: #306685;
+    background-color: #CBD6DC;
+    border-radius: 50px;
+    padding: 10px 45px;
+	margin: 10px;
+	cursor: pointer;
+}
+
+.containerFile input {
+	display: none;
+}
+
+.containerFile .fa-image {
+	font-size: 90px;
+    color: #CBD6DC;
+}
+
+.containerFile img {
+	display: none;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.modalAddProject form label[for="title"], [for="category"] {
+	font-size: 16px;
+	margin: 2em 0 1em 0;
+}
+
+.modalAddProject form input {
+    height: 80px;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.modalAddProject form select {
+    height: 80px;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    cursor: pointer;
+}
+
+.modalAddProject button{
+	font-family: "Syne";
+    font-size: 16px;
+    padding: 10px 90px;
+    border: 1px solid #1D6154;
+    border-radius: 25px;
+    color: white;
+    background-color: #1D6154;
+    cursor: pointer;
+    position: absolute;
+    bottom: 40px;
+}
+

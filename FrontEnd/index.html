@@ -48,9 +48,28 @@
 			<aside class="modal">
 				<div class="modal-wrapper">
 					<span><i class="fa-solid fa-xmark"></i></span>
-					<h3> Galerie photo</h3>
+					<h3>Galerie photo</h3>
 					<div class="projetcsModal"></div>
-					<button>Ajouter une photo</button>
+					<button class="add-project">Ajouter une photo</button>
+				</div>
+				<div class="modalAddProject">
+					<span><i class="fa-solid fa-arrow-left"></i></span>
+					<span><i class="fa-solid fa-xmark"></i></span>
+					<h3>Ajout photo</h3>
+					<form>
+						<div class="containerFile">
+							<span><i class="fa-regular fa-image"></i></span>
+							<label for="file">+Ajouter photo</label>
+							<input type="file" id="file" name="image">
+							<img src="#" alt="Aperçu de l'image">
+							<p>jpg, png: 4mo max</p>
+						</div>
+						<label for="title">Titre</label>
+						<input type="text" id="title" name="title">
+						<label for="category">Catégorie</label>
+						<select name="category" id="category"></select>
+					</form>
+					<button class="button">Valider</button>
 				</div>
 			</aside>
 			<div class="filters">

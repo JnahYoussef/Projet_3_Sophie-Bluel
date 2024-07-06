@@ -1,8 +1,3 @@
-// ****** Variables ******//
-
-const gallery = document.querySelector(".gallery");
-const filters = document.querySelector(".filters");
-
 
 //** fonction qui récupère le tableau des projets **/:
 
@@ -14,6 +9,7 @@ async function getProjects () {
 getProjects();
 
 //** Affichage des projets dans le DOM **/
+const gallery = document.querySelector(".gallery");
 
 function createProjects(project){
     const figure = document.createElement("figure");
@@ -21,6 +17,7 @@ function createProjects(project){
     const figcaption = document.createElement("figcaption");
     img.src = project.imageUrl;
     figcaption.innerText = project.title;
+    figure.dataset.id = project.categoryId; // Ajoute l'ID de la catégorie en tant que dataset pour lier les figures à leurs catégories respectives.
     figure.appendChild(img);
     figure.appendChild(figcaption);
     gallery.appendChild(figure);
@@ -37,14 +34,17 @@ displayProjects();
 
 //*** Affichage des boutons par catégories ***//
 
-//récupérer le tableau des catégories 
+// récupérer le tableau des catégories //
 
 async function getCategories() {
     const response = await fetch("http://localhost:5678/api/categories");
     return await response.json();
 }
 
-//Afficher le tableau des catégories
+// Afficher le tableau des catégories //
+
+const filters = document.querySelector(".filters");
+
 async function displayCategoriesButtons(){
     const categories = await getCategories();
     categories.unshift({ id: 0, name: "Tous" }); // Ajoute une catégorie "Tous" pour permettre l'affichage de tous les travaux.
@@ -64,43 +64,41 @@ displayCategoriesButtons();
 
 //*** Filtrer par catégorie au clic ***//
 
-async function filterCategory () {
-    const categories = await getProjects();
+async function filterCategory() {
+    const projects = await getProjects();
     const buttons = document.querySelectorAll(".filters button");
     const figures = gallery.querySelectorAll('figure');
 
     buttons.forEach(button => {
-        button.addEventListener ("click", (event) =>{
-            btnId = event.target.id;
-            gallery.innerHTML = ""; //pour vider la gallery et afficher que la sélection, sinon tous s'affiche en plus de la sélection en bas
+        button.addEventListener("click", (event) => {
+            const btnId = event.target.id;
 
-            buttons.forEach(btn => btn.classList.remove('selected')); // Retirer la classe "selected" de tous les boutons
+            // Retirer la classe "selected" de tous les boutons
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            // Ajouter la classe "selected" au bouton cliqué
+            event.target.classList.add('selected');
 
-            event.target.classList.add('selected'); // Ajouter la classe "selected" au bouton cliqué
-
-            if(btnId !== "0"){
-                // au lieux de refaire une appel api avec la methode createProjects, on display none les figure qui on un dataset-id équivalent au boutton sur lequel on as click
-                // regarder toutes les figure, et voir sir leur data-it == btnId, dans ce cas on les display none. Autrement display block.
-                // dataset.id = id de la figure
-
-                for (let i = 0; i < figures.length; i++) {
-                    console.log(figures[i].dataset.id);
-                }
-
-                const categoriesSort = categories.filter(project => {
-                    return project.categoryId == btnId
-                });
-
-                categoriesSort.forEach(project => {
-                    createProjects(project)
+            if (btnId !== "0") {
+                // Afficher/masquer les figures en fonction de l'ID de la catégorie
+                figures.forEach(figure => {
+                    if (figure.dataset.id === btnId) {
+                        figure.style.display = "block"; // Afficher les figures correspondantes
+                    } else {
+                        figure.style.display = "none"; // Masquer les autres figures
+                    }
                 });
             } else {
-                displayProjects();
+                // Afficher toutes les figures si la catégorie "Tous" est sélectionnée
+                figures.forEach(figure => {
+                    figure.style.display = "block";
+                });
             }
         });
     });
 }
+
 filterCategory();
+
 
 
                         //******************* Gestion page d'acueille ***********//
@@ -212,9 +210,45 @@ async function displayProjectsModal () {
         figure.appendChild(trash);
         figure.appendChild(img);
         projectsModal.appendChild(figure)
-
     });
 }
 displayProjectsModal ()
 
+
+//** fonction pour gérer la 2eme modale **//
+
+const addProject = document.querySelector(".add-project");
+const faXmarkII = document.querySelector(".modalAddProject .fa-xmark");
+const modalWrapper = document.querySelector(".modal-wrapper")
+const modalAddProject = document.querySelector(".modalAddProject");
+const arrowLeft = document.querySelector(".fa-arrow-left")
+
+function displayModalAddProject() {
+// Ouvrir la modale //
+    addProject.addEventListener("click", () => {
+        modalAddProject.style.display = "flex";
+        modalWrapper.style.display = "none"
+    })
+     // Retour à la modale principal //
+     arrowLeft.addEventListener("click", () => {
+        modalAddProject.style.display = "none";
+        modalWrapper.style.display = "flex"
+    })
+     // Fermer la modale au clique sur le croix //
+     faXmarkII.addEventListener("click", () => {
+        modal.style.display = "none";
+        //pour fermer la 2eme modale et afficher que la 1ere modale une fois que re-clique sur "modifier"
+        modalAddProject.style.display = "none"; 
+        modalWrapper.style.display = "flex";
+    })
+        // fermer et réintialiser les modales au clique en dehors //
+      modal.addEventListener("click", (e) => {
+        if (e.target.className == "modal") {
+            modalAddProject.style.display = "none";
+            modalWrapper.style.display = "flex"; 
+        }
+    })
+    
+}
+displayModalAddProject();
 
