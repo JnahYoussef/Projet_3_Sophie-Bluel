@@ -3,10 +3,10 @@
 
 async function getProjects () {
     const response = await  fetch ("http://localhost:5678/api/works");
-    return await response.json()
+    return response.json()
    
 }
-getProjects();
+console.log(getProjects());
 
 //** Affichage des projets dans le DOM **/
 const gallery = document.querySelector(".gallery");
@@ -29,7 +29,6 @@ async function displayProjects() {
         createProjects(project)
     });
 }
-displayProjects();
 
 
 //*** Affichage des boutons par catégories ***//
@@ -38,37 +37,39 @@ displayProjects();
 
 async function getCategories() {
     const response = await fetch("http://localhost:5678/api/categories");
-    return await response.json();
+    return response.json();
 }
 
 // Afficher le tableau des catégories //
 
 const filters = document.querySelector(".filters");
 
+function createButton (category){
+    const btn = document.createElement("button");
+    btn.textContent = category.name;
+    btn.id = category.id;
+    filters.appendChild(btn);
+
+    if (category.id === 0) {
+        btn.classList.add("selected"); // Ajouter la classe "selected" au bouton 'Tous'
+    }
+}
+
 async function displayCategoriesButtons(){
     const categories = await getCategories();
     categories.unshift({ id: 0, name: "Tous" }); // Ajoute une catégorie "Tous" pour permettre l'affichage de tous les travaux.
-    categories.forEach(category => {
-        const btn = document.createElement("button");
-        btn.textContent = category.name;
-        btn.id = category.id;
-        filters.appendChild(btn);
-
-        if (category.id === 0) {
-            btn.classList.add("selected"); // Ajouter la classe "selected" au bouton 'Tous'
-        }
-    });
+    categories.forEach(createButton);
+    filterCategory();
 }
-displayCategoriesButtons();
+
 
 
 //*** Filtrer par catégorie au clic ***//
 
 async function filterCategory() {
-    const projects = await getProjects();
     const buttons = document.querySelectorAll(".filters button");
     const figures = gallery.querySelectorAll('figure');
-
+ 
     buttons.forEach(button => {
         button.addEventListener("click", (event) => {
             const btnId = event.target.id;
@@ -97,7 +98,12 @@ async function filterCategory() {
     });
 }
 
-filterCategory();
+async function initialize() {
+    await displayProjects();
+    await displayCategoriesButtons();
+}
+
+initialize()
 
 
 
@@ -211,8 +217,45 @@ async function displayProjectsModal () {
         figure.appendChild(img);
         projectsModal.appendChild(figure)
     });
+
+ deleteProject();
 }
 displayProjectsModal ()
+
+
+//** Suppression de travaux existants **//
+
+async function deleteProject() {
+    const allTrash = document.querySelectorAll(".fa-trash-can");
+    allTrash.forEach(trash => {
+        trash.addEventListener("click", async (e) => {
+            e.preventDefault();
+            const token = sessionStorage.getItem("token");
+            const id = trash.id;
+            try {
+                const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Accept": "*/*",
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+                if (response.ok) {
+                    // On met l'affichage à jour
+                    document.querySelector(".projectsModal").innerHTML = "";
+                    const projects = await getProjects();
+                    displayProjectsModal(projects);
+                    displayProjects(projects);
+                } else {
+                    alert("Échec de la suppression du projet.");
+                }
+            } catch (error) {
+                alert("Problème de connexion au serveur.");
+            }
+        });
+    });
+}
+
 
 
 //** fonction pour gérer la 2eme modale **//
@@ -247,8 +290,7 @@ function displayModalAddProject() {
             modalAddProject.style.display = "none";
             modalWrapper.style.display = "flex"; 
         }
-    })
-    
+    })  
 }
 displayModalAddProject();
 
