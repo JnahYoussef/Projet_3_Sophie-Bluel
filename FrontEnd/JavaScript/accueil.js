@@ -6,7 +6,6 @@ async function getProjects () {
     return response.json()
    
 }
-console.log(getProjects());
 
 //** Affichage des projets dans le DOM **/
 const gallery = document.querySelector(".gallery");
@@ -29,7 +28,6 @@ async function displayProjects() {
         createProjects(project)
     });
 }
-
 
 //*** Affichage des boutons par catégories ***//
 
@@ -61,8 +59,6 @@ async function displayCategoriesButtons(){
     categories.forEach(createButton);
     filterCategory();
 }
-
-
 
 //*** Filtrer par catégorie au clic ***//
 
@@ -105,10 +101,7 @@ async function initialize() {
 
 initialize()
 
-
-
                         //******************* Gestion page d'acueille ***********//
-
 
 //** fonction de modification de l'affichage en Mode Edition **//
 
@@ -133,14 +126,13 @@ function setModification(classModif, textHtml) {
     }
 }
 
-//** */ Fonction login **//
+//** Fonction login **//
 
 function checkLoginStatus() {
     // On récupère le token
     const loginLink = document.getElementById("login-button");
     let token = sessionStorage.getItem("token");
     const isLogged = token ? true : false;
-
     // On modifie l'affichage et la redirection du lien login
     if (isLogged) {
         loginLink.innerHTML = "Logout";
@@ -151,7 +143,6 @@ function checkLoginStatus() {
         loginLink.href = "./login.html";
         loginLink.removeEventListener("click", logout); 
     }
-
     // On modifie l'affichage du mode édition
     if (isLogged) {
         setModification(".mode-edition", "Mode édition")
@@ -163,18 +154,15 @@ function checkLoginStatus() {
     }
 }
  
-
 // logout() elle va s'occuper de la déconnection, vider le local storage
 function logout() {
     sessionStorage.removeItem("token");
     window.location.href = "./index.html"; // Rediriger vers la page de login après la déconnexion
 }
-
 checkLoginStatus();
 
 
                             /*************** GALERIE - MODALES ***************/
-
 
 //** fonction pour gérer la modale **//
 
@@ -217,35 +205,30 @@ async function displayProjectsModal () {
         figure.appendChild(img);
         projectsModal.appendChild(figure)
     });
-
- deleteProject();
+    deleteProject();
 }
 displayProjectsModal ()
 
-
-//** Suppression de travaux existants **//
+//** fonction de suppression de travaux existants **//
 
 async function deleteProject() {
     const allTrash = document.querySelectorAll(".fa-trash-can");
     allTrash.forEach(trash => {
-        trash.addEventListener("click", async (e) => {
-            e.preventDefault();
-            const token = sessionStorage.getItem("token");
+        trash.addEventListener("click", async (event) => {
+            event.preventDefault();
+            const token = JSON.parse(sessionStorage.getItem("token"));
             const id = trash.id;
             try {
                 const response = await fetch(`http://localhost:5678/api/works/${id}`, {
                     method: "DELETE",
                     headers: {
                         "Accept": "*/*",
-                        "Authorization": `Bearer ${token}`
+                        "Authorization": `Bearer ${token.token}`
                     }
                 });
                 if (response.ok) {
-                    // On met l'affichage à jour
-                    document.querySelector(".projectsModal").innerHTML = "";
-                    const projects = await getProjects();
-                    displayProjectsModal(projects);
-                    displayProjects(projects);
+                    // Supprimer l'élément de l'interface utilisateur
+                    trash.closest("figure").remove();
                 } else {
                     alert("Échec de la suppression du projet.");
                 }
@@ -256,8 +239,6 @@ async function deleteProject() {
     });
 }
 
-
-
 //** fonction pour gérer la 2eme modale **//
 
 const addProject = document.querySelector(".add-project");
@@ -267,8 +248,10 @@ const modalAddProject = document.querySelector(".modalAddProject");
 const arrowLeft = document.querySelector(".fa-arrow-left")
 
 function displayModalAddProject() {
+    const form = document.querySelector(".modalAddProject form");
 // Ouvrir la modale //
     addProject.addEventListener("click", () => {
+        initForm(); //reinitialiser le formulaire
         modalAddProject.style.display = "flex";
         modalWrapper.style.display = "none"
     })
@@ -294,3 +277,104 @@ function displayModalAddProject() {
 }
 displayModalAddProject();
 
+//** Prévisualiser les photos à envoyer **//
+const previewImg = document.querySelector(".containerFile img");
+const inputFile = document.querySelector(".containerFile input");
+const labelFile = document.querySelector(".containerFile label");
+const iconFile = document.querySelector(".containerFile .fa-image");
+const paragrapheFile = document.querySelector(".containerFile p");
+
+inputFile.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    previewImg.src = URL.createObjectURL(file);
+    previewImg.style.display = "block";
+    labelFile.style.display = "none";
+    iconFile.style.display = "none";
+    paragrapheFile.style.display = "none";
+})
+
+// fonction pour réinitialiser la formulaire  //
+
+function initForm() {
+        previewImg.src = ""; 
+        previewImg.style.display = "none";
+        labelFile.style.display = "flex";
+        iconFile.style.display = "flex";
+        paragrapheFile.style.display = "flex";
+        inputFile.value = ""; // réinitialiser la valeur du champ de fichier
+        document.getElementById("title").value = "";  //vider le champs du titre
+        document.getElementById("category").value = ""; //remettre "choisissez une catégorie" par defaut
+}
+initForm();
+
+//** créer une liste de catégories dans l'input **//
+
+async function displayCategoriesInput() {   
+    const categorySelect = document.querySelector("#category");
+    const categories = await getCategories();
+    // Ajoute une option par défaut
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Choisissez une catégorie";
+    categorySelect.appendChild(defaultOption);
+    // Ajoute les catégories au sélecteur
+    categories.forEach(category => {
+        const option = document.createElement("option");
+        option.value = category.id;
+        option.textContent = category.name;
+        categorySelect.appendChild(option);
+    });
+}
+displayCategoriesInput();
+
+            //** Envoyer le projet **//
+
+// vérification que tous les champs sont remplis //
+
+document.addEventListener("change", () => {
+    const titleInput = document.getElementById("title");
+    const categorySelect = document.getElementById("category");
+    const fileInput = document.getElementById("file");
+    const submitButton = document.getElementById("submitButton");
+  
+    function updateButtonState() {
+        if (titleInput.value.trim() !== "" && categorySelect.value !== "" && fileInput.files.length > 0) {
+          submitButton.style.backgroundColor = "#1d6154";
+        } else {
+          submitButton.style.backgroundColor = "#a7a7a7";
+        }
+    }
+    updateButtonState();
+});
+
+// Envoi du projet //
+
+async function sendProject() {
+    const form = document.querySelector(".modalAddProject form");
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const token = JSON.parse(sessionStorage.getItem("token"));
+        const formData = new FormData(form);
+        try {
+            const response = await fetch("http://localhost:5678/api/works", {
+                method: "POST",
+                headers: {
+                    "Accept": "*/*",
+                    "Authorization": `Bearer ${token.token}`    
+                },
+                body: formData
+            });
+            if (response.ok) {
+                modalAddProject.display = "none";
+                modalWrapper.display = "block";
+            } else {
+                alert("Veuillez remplir tous les champs.");
+            }
+        } catch (error) {
+            alert("Problème de connexion au serveur.");
+        }
+    });
+}
+sendProject(); 
+
+  

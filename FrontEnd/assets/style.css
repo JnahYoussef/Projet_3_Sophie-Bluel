@@ -48,7 +48,6 @@ table {
 }
 /** end reset css**/
 body {
-	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
@@ -56,7 +55,7 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	padding: 3em 12em;
 }
 section {
 	margin: 50px 0
@@ -88,7 +87,7 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
-
+	gap: 10%;
 }
 nav li {
 	padding: 0 10px;
@@ -204,6 +203,11 @@ footer nav ul {
 
 
 /*** Codes ajoutés ***/
+
+main {
+	max-width: 1140px;
+    margin: auto;
+}
 
 #instagram img {
     height: 22px;
@@ -351,10 +355,11 @@ footer nav ul {
     position: absolute;
     top: 120px;
     flex-wrap: wrap;
-    align-content: space-between;
+    align-content: flex-start;
     gap: 8px;
     border-bottom: 2px solid #B3B3B3;
     padding-bottom: 55px;
+	overflow: auto;
 }
 .modal-wrapper .projetcsModal figure {
 	height: 30%;
@@ -400,19 +405,19 @@ footer nav ul {
 .modal h3 {
     font-size: 30px;
     position: absolute;
-    top: 70px;
+    top: 60px;
 }
 
 .modalAddProject form {
 	display: flex;
     flex-direction: column;
     width: 70%;
-    height: 55%;
+    height: 60%;
     position: absolute;
-    top: 150px;
+    top: 130px;
     justify-content: center;
     border-bottom: 2px solid #B3B3B3;
-    padding-bottom: 62px;
+    padding-bottom: 45px;
 }
 
 .containerFile {
@@ -420,12 +425,13 @@ footer nav ul {
     flex-direction: column;
     align-items: center;
     background-color: #E8F1F7;
-    height: 100%;
+    height: 45%;
     justify-content: center;
     border-radius: 5px;
 }
 
 .containerFile label {
+	display: flex;
 	font-size: 18px;
     color: #306685;
     background-color: #CBD6DC;
@@ -440,6 +446,7 @@ footer nav ul {
 }
 
 .containerFile .fa-image {
+	display: flex;
 	font-size: 90px;
     color: #CBD6DC;
 }
@@ -456,30 +463,31 @@ footer nav ul {
 }
 
 .modalAddProject form input {
-    height: 80px;
+    height: 50px;
     font-size: 1.2em;
     border: none;
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
 .modalAddProject form select {
-    height: 80px;
+    height: 50px;
     font-size: 1.2em;
     border: none;
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
     cursor: pointer;
 }
 
-.modalAddProject button{
-	font-family: "Syne";
+#submitButton {
+    font-family: "Syne";
     font-size: 16px;
-    padding: 10px 90px;
-    border: 1px solid #1D6154;
+    border: none;
     border-radius: 25px;
     color: white;
-    background-color: #1D6154;
+    background-color: #a7a7a7;
     cursor: pointer;
-    position: absolute;
-    bottom: 40px;
+    position: fixed;
+    width: 16%;
+    height: 40px;
+    bottom: 60px;
+    left: 42%;
 }
-

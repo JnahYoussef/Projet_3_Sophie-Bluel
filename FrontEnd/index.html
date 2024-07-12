@@ -18,7 +18,7 @@
 <body>
 	<div class="mode-edition"></div>
 	<header>
-		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+		<h1>Sophie Bluel <span>ARCHITECTE D’INTÉRIEUR</span></h1>
 		<nav>
 			<ul>
 				<li><a href="./index.html#portfolio">projets</a></li>
@@ -60,7 +60,7 @@
 						<div class="containerFile">
 							<span><i class="fa-regular fa-image"></i></span>
 							<label for="file">+Ajouter photo</label>
-							<input type="file" id="file" name="image">
+							<input type="file" id="file" name="image" accept=".jpg, .png">
 							<img src="#" alt="Aperçu de l'image">
 							<p>jpg, png: 4mo max</p>
 						</div>
@@ -68,8 +68,9 @@
 						<input type="text" id="title" name="title">
 						<label for="category">Catégorie</label>
 						<select name="category" id="category"></select>
+						<button id="submitButton" type="submit">Valider</button>
 					</form>
-					<button class="button">Valider</button>
+					
 				</div>
 			</aside>
 			<div class="filters">
