@@ -202,7 +202,7 @@ footer nav ul {
 }
 
 
-/*** Codes ajoutés ***/
+									/*** Codes ajoutés ***/
 
 main {
 	max-width: 1140px;
@@ -235,9 +235,7 @@ main {
 .filters button.selected {
 	background-color: #1D6154;
 	color: white;
-  }
-
-  
+  } 
 
 .mode-edition-style {
 	width: 100%;
@@ -322,6 +320,7 @@ main {
 	border-radius: 10px;
 	position: relative;
 }
+
 .fa-xmark {
 	text-align: right;
 	font-size: 25px;
@@ -331,6 +330,7 @@ main {
 	right: 25px;
 	cursor: pointer;
 }
+
 .modal-wrapper button {
 	font-family: "Syne";
     font-size: 16px;
@@ -343,6 +343,7 @@ main {
     position: absolute;
     bottom: 40px;
 }
+
 .modal-wrapper h3 {
 	font-size: 30px;
 	position: absolute;
@@ -353,7 +354,6 @@ main {
     height: 60%;
     display: flex;
     position: absolute;
-    top: 120px;
     flex-wrap: wrap;
     align-content: flex-start;
     gap: 8px;
@@ -361,10 +361,12 @@ main {
     padding-bottom: 55px;
 	overflow: auto;
 }
+
 .modal-wrapper .projetcsModal figure {
 	height: 30%;
 	position: relative;
 }
+
 .modal-wrapper .projetcsModal figure img {
 	width: 100%;
 	height: 100%;

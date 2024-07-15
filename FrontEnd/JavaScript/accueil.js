@@ -1,4 +1,6 @@
 
+                                                //***** Page d'accueil *****//
+
 //** fonction qui récupère le tableau des projets **/:
 
 async function getProjects () {
@@ -8,6 +10,7 @@ async function getProjects () {
 }
 
 //** Affichage des projets dans le DOM **/
+
 const gallery = document.querySelector(".gallery");
 
 function createProjects(project){
@@ -23,7 +26,7 @@ function createProjects(project){
 }
 
 async function displayProjects() {
-    const projects = await getProjects ()
+    const projects = await getProjects ();
     projects.forEach(project => {
         createProjects(project)
     });
@@ -98,7 +101,6 @@ async function initialize() {
     await displayProjects();
     await displayCategoriesButtons();
 }
-
 initialize()
 
                         //******************* Gestion page d'acueille ***********//
@@ -227,8 +229,9 @@ async function deleteProject() {
                     }
                 });
                 if (response.ok) {
-                    // Supprimer l'élément de l'interface utilisateur
                     trash.closest("figure").remove();
+                    gallery.innerHTML = "";
+                    displayProjects();
                 } else {
                     alert("Échec de la suppression du projet.");
                 }
@@ -294,6 +297,8 @@ inputFile.addEventListener("change", (e) => {
 })
 
 // fonction pour réinitialiser la formulaire  //
+const titleInput = document.getElementById("title");
+const categorySelect = document.getElementById("category");
 
 function initForm() {
         previewImg.src = ""; 
@@ -302,10 +307,9 @@ function initForm() {
         iconFile.style.display = "flex";
         paragrapheFile.style.display = "flex";
         inputFile.value = ""; // réinitialiser la valeur du champ de fichier
-        document.getElementById("title").value = "";  //vider le champs du titre
-        document.getElementById("category").value = ""; //remettre "choisissez une catégorie" par defaut
+        titleInput.value = "";  //vider le champs du titre
+        categorySelect.value = ""; //remettre "choisissez une catégorie" par defaut
 }
-initForm();
 
 //** créer une liste de catégories dans l'input **//
 
@@ -332,8 +336,6 @@ displayCategoriesInput();
 // vérification que tous les champs sont remplis //
 
 document.addEventListener("change", () => {
-    const titleInput = document.getElementById("title");
-    const categorySelect = document.getElementById("category");
     const fileInput = document.getElementById("file");
     const submitButton = document.getElementById("submitButton");
   
@@ -365,8 +367,14 @@ async function sendProject() {
                 body: formData
             });
             if (response.ok) {
-                modalAddProject.display = "none";
-                modalWrapper.display = "block";
+                gallery.innerHTML = "";
+                const projects = await getProjects();
+                projects.forEach(project => {
+                    createProjects(project)
+                });
+                displayProjectsModal();
+                modalAddProject.style.display = "none";
+                modalWrapper.style.display = "flex";  
             } else {
                 alert("Veuillez remplir tous les champs.");
             }
